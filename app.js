@@ -24,11 +24,36 @@ for (var i = 0; i < 3; i++) {
 
 console.log(gameboard)
 
+// NEW GAME function
+var newGame = function() {
+  gameboard.forEach(function(row) {
+    row.forEach(function(box) {
+      box.textContent = '';
+    })
+  })
+};
+
+// Attach as listener for new game button
+document.getElementById('new-game').addEventListener('click', newGame);
+
 // Toggle box function
 var placePiece = function(box) {
   if (this.textContent === '') {
-    this.textContent = players[turnTracker % 2];
-    turnTracker++;    
+    var piece = players[turnTracker % 2]
+    var row = this.id[0];
+    var col = this.id[1];
+    var position = this.id;
+
+    this.textContent = piece;
+    turnTracker++;
+
+    // check if winning move
+    var horizontalWin = checkHorizontalWin(piece, row);
+
+    // check if tie
+    if (turnTracker === 9) {
+      // RENDER TIE
+    }
   }
 };
 
@@ -38,3 +63,14 @@ gameboard.forEach(function(row) {
     box.addEventListener('click', placePiece)
   })
 })
+
+// CHECK IF WON FUNCTIONS
+var checkHorizontalWin = function(piece, row) {
+  var result = null;
+  for (var i = 0; i < 3; i++) {
+    if (gameboard[row][i].textContent != piece) {
+      return false;
+    }
+  }
+  return true;
+}
