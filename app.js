@@ -48,11 +48,25 @@ var placePiece = function(box) {
     turnTracker++;
 
     // check if winning move
+    // horizontal
     var horizontalWin = checkHorizontalWin(piece, row);
+    if (horizontalWin) {
+      // TODO: RENDER WIN
+      return;
+    }
+
+    // vertical
+    var verticalWin = checkVerticalWin(piece, col);
+    if (verticalWin) {
+      // TODO: RENDER win
+      return;
+    }
+
+    // diagonal
 
     // check if tie
     if (turnTracker === 9) {
-      // RENDER TIE
+      // TODO: RENDER TIE
     }
   }
 };
@@ -66,9 +80,17 @@ gameboard.forEach(function(row) {
 
 // CHECK IF WON FUNCTIONS
 var checkHorizontalWin = function(piece, row) {
-  var result = null;
   for (var i = 0; i < 3; i++) {
     if (gameboard[row][i].textContent != piece) {
+      return false;
+    }
+  }
+  return true;
+}
+
+var checkVerticalWin = function(piece, col) {
+  for (var i = 0; i < 3; i++) {
+    if (gameboard[i][col].textContent != piece) {
       return false;
     }
   }
