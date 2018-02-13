@@ -39,30 +39,47 @@ document.getElementById('new-game').addEventListener('click', newGame);
 // Toggle box function
 var placePiece = function(box) {
   if (this.textContent === '') {
-    var piece = players[turnTracker % 2]
+    var player = players[turnTracker % 2]
     var row = this.id[0];
     var col = this.id[1];
-    var position = this.id;
+    var pos = this.id;
 
-    this.textContent = piece;
+    this.textContent = player;
     turnTracker++;
 
     // check if winning move
     // horizontal
-    var horizontalWin = checkHorizontalWin(piece, row);
-    if (horizontalWin) {
+    var won = checkHorizontalWin(player, row);
+    if (won) {
       // TODO: RENDER WIN
       return;
     }
 
     // vertical
-    var verticalWin = checkVerticalWin(piece, col);
-    if (verticalWin) {
-      // TODO: RENDER win
+    won = checkVerticalWin(player, col);
+    if (won) {
+      // TODO: RENDER WIN
       return;
     }
 
-    // diagonal
+    // major diagonal
+    if (pos === '00' || pos === '11' || pos === '22') {
+      won = checkMajorDiagonalWin(player);
+      if (won) {
+        // render win
+        return
+      }
+    }
+
+    // minor minor diagonal
+    if (pos === '20' || pos === '11' || pos === '02') {
+      won = checkMinorDiagonalWin(player);
+      console.log(won)
+      if (won) {
+        // render win
+        return;
+      }
+    }
 
     // check if tie
     if (turnTracker === 9) {
@@ -79,20 +96,38 @@ gameboard.forEach(function(row) {
 })
 
 // CHECK IF WON FUNCTIONS
-var checkHorizontalWin = function(piece, row) {
+var checkHorizontalWin = function(player, row) {
   for (var i = 0; i < 3; i++) {
-    if (gameboard[row][i].textContent != piece) {
+    if (gameboard[row][i].textContent !== player) {
       return false;
     }
   }
   return true;
-}
+};
 
-var checkVerticalWin = function(piece, col) {
+var checkVerticalWin = function(player, col) {
   for (var i = 0; i < 3; i++) {
-    if (gameboard[i][col].textContent != piece) {
+    if (gameboard[i][col].textContent !== player) {
       return false;
     }
   }
   return true;
-}
+};
+
+var checkMajorDiagonalWin = function(player) {
+  for (var i = 0; i < 3; i++) {
+    if (gameboard[i][i].textContent !== player) {
+      return false;
+    }
+  }
+  return true;
+};
+
+var checkMinorDiagonalWin = function(player) {
+  for (var i = 0; i < 3; i++) {
+    if (gameboard[2 - i][i].textContent !== player) {
+      return false;
+    }
+  }
+  return true;
+};
