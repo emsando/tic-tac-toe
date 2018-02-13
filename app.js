@@ -3,8 +3,7 @@
 
 // === GAME STATE ===
 var state = {
-  // Track whose turn it is
-  // % 2 gives player
+  // Track whose turn it is: % 2 gives player
   turnTracker: 0,
   // Players
   players: {
@@ -15,7 +14,9 @@ var state = {
     'X': 0,
     'O': 0
   },
-  lastWinner: null
+  lastWinner: null,
+  // GAME BOARD
+  gameboard: []
 };
 
 var player1 = prompt('Enter Name of Player 1');
@@ -25,19 +26,17 @@ document.getElementById('player2name').textContent = `${player2}: O`;
 
 
 // traverse DOM and create gameboard array
-var gameboard = [];
-
 for (var i = 0; i < 3; i++) {
   var row = []
   for (var j = 0; j < 3; j++) {
     row.push(document.getElementById(i.toString() + j.toString()));
   }
-  gameboard.push(row);
+  state.gameboard.push(row);
 }
 
 // NEW GAME function
 var newGame = function() {
-  gameboard.forEach(function(row) {
+  state.gameboard.forEach(function(row) {
     row.forEach(function(box) {
       box.textContent = '';
     })
@@ -46,8 +45,10 @@ var newGame = function() {
 
   if (state.lastWinner === 'X' || state.lastWinner === null) {
     state.turnTracker = 0
+    document.getElementById('current-turn').textContent = `${player1}'s turn!`;
   } else {
     state.turnTracker = 1;
+    document.getElementById('current-turn').textContent = `${player2}'s turn!`;
   }
 };
 
@@ -103,11 +104,14 @@ var placePiece = function(box) {
     if (state.turnTracker >= 9) {
       renderTie();
     }
+
+    // render turn
+    renderTurn(state.players[state.turnTracker % 2]);
   }
 };
 
 // Attach as event listener on each game-box
-gameboard.forEach(function(row) {
+state.gameboard.forEach(function(row) {
   row.forEach(function(box) {
     box.addEventListener('click', placePiece)
   })
@@ -116,7 +120,7 @@ gameboard.forEach(function(row) {
 // CHECK IF WON FUNCTIONS
 var checkHorizontalWin = function(player, row) {
   for (var i = 0; i < 3; i++) {
-    if (gameboard[row][i].textContent !== player) {
+    if (state.gameboard[row][i].textContent !== player) {
       return false;
     }
   }
@@ -125,7 +129,7 @@ var checkHorizontalWin = function(player, row) {
 
 var checkVerticalWin = function(player, col) {
   for (var i = 0; i < 3; i++) {
-    if (gameboard[i][col].textContent !== player) {
+    if (state.gameboard[i][col].textContent !== player) {
       return false;
     }
   }
@@ -134,7 +138,7 @@ var checkVerticalWin = function(player, col) {
 
 var checkMajorDiagonalWin = function(player) {
   for (var i = 0; i < 3; i++) {
-    if (gameboard[i][i].textContent !== player) {
+    if (state.gameboard[i][i].textContent !== player) {
       return false;
     }
   }
@@ -143,7 +147,7 @@ var checkMajorDiagonalWin = function(player) {
 
 var checkMinorDiagonalWin = function(player) {
   for (var i = 0; i < 3; i++) {
-    if (gameboard[2 - i][i].textContent !== player) {
+    if (state.gameboard[2 - i][i].textContent !== player) {
       return false;
     }
   }
@@ -155,18 +159,43 @@ var checkMinorDiagonalWin = function(player) {
 var renderWin = function(player) {
   state.scores[player]++;
   var result = document.getElementById('result')
-  result.textContent = `PLAYER ${(state.turnTracker % 2) + 1} WINS!`
+
+  // hide current turn div
+  document.getElementById('current-turn').style.display = 'none';
+
+  // display winner
+  if (player === 'X') {
+    result.textContent = `${player1.toUpperCase()} WINS!`
+  } else {
+    result.textContent = `${player2.toUpperCase()} WINS!`
+  }
   result.style.display = 'block';
 
+  // update scores and last winner
   var score = player + 'score';
   var score = document.getElementById(score);
   score.textContent = `Games Won: ${state.scores[player]}`;
-
   state.lastWinner = player;
 }
 
 var renderTie = function() {
+  // hide current turn div
+  document.getElementById('current-turn').style.display = 'none';
+
+  // display tie
   var result = document.getElementById('result')
   result.textContent = 'IT\'S A TIE!'
   result.style.display = 'block';
+};
+
+var renderTurn = function(player) {
+  var turnDiv = document.getElementById('current-turn');
+  if (player === 'X') {
+    turnDiv.textContent = `${player1}'s turn!`;
+  } else {
+    turnDiv.textContent = `${player2}'s turn!`;
+  }
 }
+
+// INIT
+document.getElementById('current-turn').textContent = `${player1}'s turn!`;

@@ -103,6 +103,14 @@ body {
   cursor: pointer;
 }
 
+.current-turn {
+  display: block;
+  padding: 20px;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+
 .result {
   display: none;
   padding: 20px;
