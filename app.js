@@ -45,11 +45,12 @@ var newGame = function() {
 
   if (state.lastWinner === 'X' || state.lastWinner === null) {
     state.turnTracker = 0
-    document.getElementById('current-turn').textContent = `${player1}'s turn!`;
+    renderTurn('X');
   } else {
     state.turnTracker = 1;
-    document.getElementById('current-turn').textContent = `${player2}'s turn!`;
+    renderTurn('O');
   }
+  document.getElementById('current-turn').style.display = 'block';
 };
 
 // Attach as listener for new game button
