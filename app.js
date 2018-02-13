@@ -22,8 +22,6 @@ for (var i = 0; i < 3; i++) {
   gameboard.push(row);
 }
 
-console.log(gameboard)
-
 // NEW GAME function
 var newGame = function() {
   gameboard.forEach(function(row) {
@@ -75,7 +73,6 @@ var placePiece = function(box) {
     // minor minor diagonal
     if (pos === '20' || pos === '11' || pos === '02') {
       won = checkMinorDiagonalWin(player);
-      console.log(won)
       if (won) {
         // render win
         return renderWin(player);
@@ -83,7 +80,6 @@ var placePiece = function(box) {
     }
 
     turnTracker++;
-    console.log(turnTracker);
 
     // check if tie
     if (turnTracker === 9) {

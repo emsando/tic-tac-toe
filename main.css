@@ -1,16 +1,33 @@
-.topbar {
+html, body {
+  height: 100%;
+}
+
+.top-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
+.topbar {
+  background-color: #fff;
+  opacity: .75;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-radius: 20px;
+}
 
 .topbar h1 {
   font-size: 50px;
-
+  margin-left: 40px;
 }
 
 body {
-  height: auto;
+  background-image: url('./assets/beach.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-width: 100%;
+
 }
 
 .new-game {
@@ -35,7 +52,14 @@ body {
 
 .player {
   display: flex;
-  padding: 10px 50px;
+  flex-direction: column;
+  padding: 30px 50px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.score {
+  font-size: 18px;
 }
 
 .game-container {
@@ -47,8 +71,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 30px;
+  margin: 10px;
   background-color: white;
+  opacity: 0.75;
 }
 
 .row {
@@ -65,7 +90,7 @@ body {
   align-items: center;
   justify-content: center;
   background-color: white;
-  font-weight: bold;
+  font-weight: bolder;
   font-size: 40px;
 }
 
