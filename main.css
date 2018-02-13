@@ -53,9 +53,14 @@ body {
 .player {
   display: flex;
   flex-direction: column;
-  padding: 30px 50px;
+  align-items: center;
+  margin: 30px;
   font-size: 25px;
   font-weight: bold;
+  padding: 20px;
+  background: #fff;
+  opacity: .75;
+  border-radius: 20px;
 }
 
 .score {

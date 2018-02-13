@@ -3,12 +3,23 @@
 // Track whose turn it is
 // % 2 gives player
 var turnTracker = 0;
+var lastWinner = null;
 
 // Players
 var players = {
   0: 'X',
   1: 'O'
 };
+
+var scores = {
+  'X': 0,
+  'O': 0
+}
+
+var player1 = prompt('Enter Name of Player 1');
+var player2 = prompt('Enter Name of Player 2');
+document.getElementById('player1name').textContent = `${player1}: X`;
+document.getElementById('player2name').textContent = `${player2}: O`;
 
 
 // traverse DOM and create gameboard array
@@ -30,7 +41,12 @@ var newGame = function() {
     })
   })
   document.getElementById('result').style.display = 'none';
-  turnTracker = 0;
+
+  if (lastWinner === 'X' || lastWinner === null) {
+    turnTracker = 0
+  } else {
+    turnTracker = 1;
+  }
 };
 
 // Attach as listener for new game button
@@ -82,7 +98,7 @@ var placePiece = function(box) {
     turnTracker++;
 
     // check if tie
-    if (turnTracker === 9) {
+    if (turnTracker >= 9) {
       renderTie();
     }
   }
@@ -133,12 +149,19 @@ var checkMinorDiagonalWin = function(player) {
 };
 
 
-// RENDER WIN
-
+// RENDER FUNCTIONS
 var renderWin = function(player) {
+  scores[player]++;
+  console.log(scores);
   var result = document.getElementById('result')
   result.textContent = `PLAYER ${(turnTracker % 2) + 1} WINS!`
   result.style.display = 'block';
+
+  var score = player + 'score';
+  var score = document.getElementById(score);
+  score.textContent = `Games Won: ${scores[player]}`;
+
+  lastWinner = player;
 }
 
 var renderTie = function() {
