@@ -1,20 +1,22 @@
 /* ===== TIC TAC TOE single page web app ===== */
 
-// Track whose turn it is
-// % 2 gives player
-var turnTracker = 0;
-var lastWinner = null;
 
-// Players
-var players = {
-  0: 'X',
-  1: 'O'
+// === GAME STATE ===
+var state = {
+  // Track whose turn it is
+  // % 2 gives player
+  turnTracker: 0,
+  // Players
+  players: {
+    0: 'X',
+    1: 'O'
+  },
+  scores: {
+    'X': 0,
+    'O': 0
+  },
+  lastWinner: null
 };
-
-var scores = {
-  'X': 0,
-  'O': 0
-}
 
 var player1 = prompt('Enter Name of Player 1');
 var player2 = prompt('Enter Name of Player 2');
@@ -42,10 +44,10 @@ var newGame = function() {
   })
   document.getElementById('result').style.display = 'none';
 
-  if (lastWinner === 'X' || lastWinner === null) {
-    turnTracker = 0
+  if (state.lastWinner === 'X' || state.lastWinner === null) {
+    state.turnTracker = 0
   } else {
-    turnTracker = 1;
+    state.turnTracker = 1;
   }
 };
 
@@ -55,7 +57,7 @@ document.getElementById('new-game').addEventListener('click', newGame);
 // Toggle box function
 var placePiece = function(box) {
   if (this.textContent === '') {
-    var player = players[turnTracker % 2]
+    var player = state.players[state.turnTracker % 2]
     var row = this.id[0];
     var col = this.id[1];
     var pos = this.id;
@@ -95,10 +97,10 @@ var placePiece = function(box) {
       }
     }
 
-    turnTracker++;
+    state.turnTracker++;
 
     // check if tie
-    if (turnTracker >= 9) {
+    if (state.turnTracker >= 9) {
       renderTie();
     }
   }
@@ -151,17 +153,16 @@ var checkMinorDiagonalWin = function(player) {
 
 // RENDER FUNCTIONS
 var renderWin = function(player) {
-  scores[player]++;
-  console.log(scores);
+  state.scores[player]++;
   var result = document.getElementById('result')
-  result.textContent = `PLAYER ${(turnTracker % 2) + 1} WINS!`
+  result.textContent = `PLAYER ${(state.turnTracker % 2) + 1} WINS!`
   result.style.display = 'block';
 
   var score = player + 'score';
   var score = document.getElementById(score);
-  score.textContent = `Games Won: ${scores[player]}`;
+  score.textContent = `Games Won: ${state.scores[player]}`;
 
-  lastWinner = player;
+  state.lastWinner = player;
 }
 
 var renderTie = function() {
