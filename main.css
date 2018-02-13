@@ -4,21 +4,41 @@
   justify-content: center;
 }
 
+.topbar h1 {
+  font-size: 50px;
+
+}
+
 body {
   height: auto;
 }
 
 .new-game {
-  padding: 30px;
+  margin: 35px 60px;
+  padding: 10px;
   text-align: center;
   justify-content: right;
+  font-size: 25px;
+  border: 3px solid red;
+  border-radius: 20px;
 }
 
 .new-game:hover {
   cursor: pointer;
 }
 
-.container {
+.players-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.player {
+  display: flex;
+  padding: 10px 50px;
+}
+
+.game-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -51,4 +71,13 @@ body {
 
 .game-box:hover {
   cursor: pointer;
+}
+
+.result {
+  display: none;
+  padding: 20px;
+  text-align: center;
+  font-size: 50px;
+  font-weight: bold;
+  color: red;
 }

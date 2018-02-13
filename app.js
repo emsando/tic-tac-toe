@@ -31,6 +31,8 @@ var newGame = function() {
       box.textContent = '';
     })
   })
+  document.getElementById('result').style.display = 'none';
+  turnTracker = 0;
 };
 
 // Attach as listener for new game button
@@ -45,21 +47,20 @@ var placePiece = function(box) {
     var pos = this.id;
 
     this.textContent = player;
-    turnTracker++;
 
     // check if winning move
     // horizontal
     var won = checkHorizontalWin(player, row);
     if (won) {
       // TODO: RENDER WIN
-      return;
+      return renderWin(player);
     }
 
     // vertical
     won = checkVerticalWin(player, col);
     if (won) {
       // TODO: RENDER WIN
-      return;
+      return renderWin(player);
     }
 
     // major diagonal
@@ -67,7 +68,7 @@ var placePiece = function(box) {
       won = checkMajorDiagonalWin(player);
       if (won) {
         // render win
-        return
+        return renderWin(player);
       }
     }
 
@@ -77,13 +78,16 @@ var placePiece = function(box) {
       console.log(won)
       if (won) {
         // render win
-        return;
+        return renderWin(player);
       }
     }
 
+    turnTracker++;
+    console.log(turnTracker);
+
     // check if tie
     if (turnTracker === 9) {
-      // TODO: RENDER TIE
+      renderTie();
     }
   }
 };
@@ -131,3 +135,18 @@ var checkMinorDiagonalWin = function(player) {
   }
   return true;
 };
+
+
+// RENDER WIN
+
+var renderWin = function(player) {
+  var result = document.getElementById('result')
+  result.textContent = `PLAYER ${(turnTracker % 2) + 1} WINS!`
+  result.style.display = 'block';
+}
+
+var renderTie = function() {
+  var result = document.getElementById('result')
+  result.textContent = 'IT\'S A TIE!'
+  result.style.display = 'block';
+}
